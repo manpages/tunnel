@@ -1,0 +1,42 @@
+#!/bin/bash
+
+url="$1"
+user="$(echo $url                  | grep @ | cut -d@ -f1)"
+host="$(echo ${url/$user@/}        | cut -d: -f1)"
+port="$(echo ${url/$user@$host:/}  | grep % | cut -d% -f1)"
+pkey="$(echo ${url}                | grep % | cut -d% -f2)"
+
+portmap="$2"
+local_port="$(echo ${portmap/$local_port@/} | grep \~ | cut -d~ -f1)"
+relay_port="$(echo ${portmap/$local_port@/} | grep \~ | cut -d~ -f2)"
+
+echo "SYNTAX:
+tunnel user@rhost:rport%full_path_to_id_rsa lport~relay_port
+All elements are required."
+
+echo " * * * "
+
+echo "Running reverse SSH tunnel:"
+
+echo " * * * "
+
+echo "User:  $user"
+echo "Host:  $host"
+echo "Port:  $port"
+echo "PubID: $pkey"
+
+echo " * * * "
+
+echo "Local port:  $local_port"
+echo "Relay port:  $relay_port"
+echo "Target port: $port"
+
+export AUTOSSH_PORT=0
+export AUTOSSH_GATETIME=0
+
+autossh -f -- -o'ControlPath none'           \
+    -N                                       \
+    -p ${port}                               \
+    -i "${pkey}"                             \
+    -R ${relay_port}:localhost:${local_port} \
+    ${user}@${host}                          
