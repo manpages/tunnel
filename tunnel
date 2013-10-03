@@ -1,8 +1,11 @@
 #!/bin/bash
 
-usage="SYNTAX:
+read -d '' usage <<USAGE
+SYNTAX:
 tunnel user@rhost:rport%full_path_to_id_rsa lport~relay_port
-All elements are required."
+DEFAULTS:
+tunnel rhost EXPANDS TO tunnel whoami@rhost:22%\${HOME}/.ssh/id_rsa 22~relay_port
+USAGE
 
 # Parsing.
 url="$1"
