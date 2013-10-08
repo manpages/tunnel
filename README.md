@@ -19,15 +19,14 @@ EXAMPLE
 ---
 
 ```
-λ ~/ tunnel sweater@memorici.de:22%/home/sweater/.ssh/id_rsa 22~22022
+λ ~/ tunnel sweater@memorici.de:12345%/home/sweater/.ssh/id_rsa 23456~34567
 Running reverse SSH tunnel:
  * * * 
 User:  sweater
-Host:  new.memorici.de
-Port:  21984
+Host:  memorici.de
+Port:  12345
 PubID: /home/sweater/.ssh/id_rsa
  * * * 
-Local port:  22
-Relay port:  21985
-Target port: 21984
+Local port:  23456
+Relay port:  34567
 ```
